@@ -2,7 +2,18 @@ from rest_framework import serializers
 from .models import FormationArea, ProgramType, Program
 
 
-class ProgramSerializer(serializers.ModelSerializer):
+class ProgramDetailSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Program
+        fields = (
+            'id',
+            'name',
+            'description',
+            'get_image',
+            'get_absolute_url',
+        )
+
+class ProgramListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Program
         fields = (
@@ -13,7 +24,7 @@ class ProgramSerializer(serializers.ModelSerializer):
 
 
 class ProgramTypeSerializer(serializers.ModelSerializer):
-    programs = ProgramSerializer(many=True)
+    programs = ProgramListSerializer(many=True)
     
     class Meta:
         model = ProgramType
@@ -22,7 +33,20 @@ class ProgramTypeSerializer(serializers.ModelSerializer):
             'programs'
         )
 
-class FormationAreaSerializer(serializers.ModelSerializer):
+class FormationAreaListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = FormationArea
+        fields = (
+            'id',
+            'name',
+            'description',
+            'slug',
+            'get_image',
+            'get_absolute_url',
+        )
+
+class FormationAreaDetailSerializer(serializers.ModelSerializer):
     program_types = ProgramTypeSerializer(many=True)
 
     class Meta:
